@@ -20,33 +20,38 @@ namespace SuperSimpleStockMarket
                     StockCalculations calc = new StockCalculations(data);
                     Console.WriteLine("Input stock price");
                     var price = Console.ReadLine();
-                    Console.WriteLine("Dividend Yield : " + calc.CalculateDividendYield(stock, Convert.ToDouble(price)));
-                    Console.WriteLine("PE Ratio : " + calc.CalculatePERatio(stock, Convert.ToDouble(price)));
-                    Console.WriteLine("Input 'Y' to capture trades and calcuate VWAP");
-                    var option = Console.ReadLine();
-                    if (option.ToUpper().Equals("Y"))
+                    double stockprice = Convert.ToDouble(price);
+                    if (CheckPrice(stockprice))
                     {
-                        SampleData.RecordTrade(stock);
-                        Console.WriteLine("Volume Weighted Average Price: " + calc.CalculateVWAP(stock));
-                    }
-                    else { Console.WriteLine("VWAP skipped"); }
-                    Console.WriteLine("Input 'Y' to calcualte Geomteric mean");
-                    var option1 = Console.ReadLine();
-                    if (option1.ToUpper().Equals("Y"))
-                    {
-                        Console.WriteLine("Recording trades for stocks");
-                        foreach (var stockdata in data)
+                        Console.WriteLine("Dividend Yield : " + calc.CalculateDividendYield(stock, stockprice));
+                        Console.WriteLine("PE Ratio : " + calc.CalculatePERatio(stock, stockprice));
+                        Console.WriteLine("Input 'Y' to capture trades and calcuate VWAP");
+                        var option = Console.ReadLine();
+                        if (option.ToUpper().Equals("Y"))
                         {
-                            if (stockdata.TradeDetails == null)
-                            {
-                                SampleData.RecordTrade(stockdata.Symbol);
-                            }
+                            SampleData.RecordTrade(stock);
+                            Console.WriteLine("Volume Weighted Average Price: " + calc.CalculateVWAP(stock));
                         }
-                        Console.WriteLine("Completed....");
-                        Console.WriteLine("Geometric Mean of all stock prices : " + calc.CalculateGeometricMean());
+                        else { Console.WriteLine("VWAP skipped"); }
+                        Console.WriteLine("Input 'Y' to calcualte Geomteric mean");
+                        var option1 = Console.ReadLine();
+                        if (option1.ToUpper().Equals("Y"))
+                        {
+                            Console.WriteLine("Recording trades for stocks");
+                            foreach (var stockdata in data)
+                            {
+                                if (stockdata.TradeDetails == null)
+                                {
+                                    SampleData.RecordTrade(stockdata.Symbol);
+                                }
+                            }
+                            Console.WriteLine("Completed....");
+                            Console.WriteLine("Geometric Mean of all stock prices : " + calc.CalculateGeometricMean());
+                        }
+                        else { Console.WriteLine("Geometric mean skipped"); }
+                        StartOver();
                     }
-                    else { Console.WriteLine("Geometric mean skipped"); }
-                    StartOver();
+                    else { StartOver(); }
                 }
                 else
                 {
@@ -76,6 +81,16 @@ namespace SuperSimpleStockMarket
             {
                 Environment.Exit(0);
             }
+        }
+
+        private static bool CheckPrice(double price)
+        {
+            if(price<=0)
+            {
+                Console.WriteLine("Price cannot be zero or less");
+                return false;
+            }
+            else { return true; }
         }
       
     }
