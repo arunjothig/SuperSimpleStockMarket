@@ -10,7 +10,9 @@ namespace SuperSimpleStockMarket
         {
             try
             {
+                Console.WriteLine("Preparing sample data for stock symbols TEA , POP, ALE , GIN , JOE");
                 var data = SampleData.PrepareTestData();
+                Console.WriteLine("Completed....");
                 Console.WriteLine("Input stock symbol");
                 var stock = Console.ReadLine();
                 if (data.Any(sym => sym.Symbol == stock))
@@ -40,23 +42,41 @@ namespace SuperSimpleStockMarket
                                 SampleData.RecordTrade(stockdata.Symbol);
                             }
                         }
+                        Console.WriteLine("Completed....");
                         Console.WriteLine("Geometric Mean of all stock prices : " + calc.CalculateGeometricMean());
                     }
                     else { Console.WriteLine("Geometric mean skipped"); }
-                    Console.ReadLine();
+                    StartOver();
                 }
                 else
                 {
                     Console.WriteLine("Invalid stock");
+                    StartOver();
+
                 }
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                StartOver();
             }
 
         }
 
+        private static void StartOver()
+        {
+            Console.WriteLine("Press R to start over or any key to exit");
+            var info = Console.ReadLine();
+            if (info.ToUpper().Equals("R"))
+            {
+                Console.Clear();
+                Main(null);
+            }
+            else
+            {
+                Environment.Exit(0);
+            }
+        }
       
     }
 }

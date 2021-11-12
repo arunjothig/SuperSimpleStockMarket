@@ -8,51 +8,54 @@ namespace SuperSimpleStockMarket
     internal static class SampleData
     {
         private static List<StockDetails> stocks;
+        private static List<Trades> trades;
         public static List<StockDetails> PrepareTestData()
         {
-            stocks = new List<StockDetails>();
-            stocks.Add(new StockDetails
+            if (stocks == null)
             {
-                Symbol = "TEA",
-                Type = "Common",
-                LastDividend = 0,
-                FixedDividend = null,
-                ParValue = 100
+                stocks = new List<StockDetails>();
+                stocks.Add(new StockDetails
+                {
+                    Symbol = "TEA",
+                    Type = "Common",
+                    LastDividend = 0,
+                    FixedDividend = null,
+                    ParValue = 100
 
-            });
-            stocks.Add(new StockDetails
-            {
-                Symbol = "POP",
-                Type = "Common",
-                LastDividend = 8,
-                FixedDividend = null,
-                ParValue = 100
-            });
-            stocks.Add(new StockDetails
-            {
-                Symbol = "ALE",
-                Type = "Common",
-                LastDividend = 23,
-                FixedDividend = null,
-                ParValue = 60
-            });
-            stocks.Add(new StockDetails
-            {
-                Symbol = "GIN",
-                Type = "Preferred",
-                LastDividend = 8,
-                FixedDividend = 2,
-                ParValue = 100
-            });
-            stocks.Add(new StockDetails
-            {
-                Symbol = "JOE",
-                Type = "Common",
-                LastDividend = 13,
-                FixedDividend = null,
-                ParValue = 250,
-            });
-           
+                });
+                stocks.Add(new StockDetails
+                {
+                    Symbol = "POP",
+                    Type = "Common",
+                    LastDividend = 8,
+                    FixedDividend = null,
+                    ParValue = 100
+                });
+                stocks.Add(new StockDetails
+                {
+                    Symbol = "ALE",
+                    Type = "Common",
+                    LastDividend = 23,
+                    FixedDividend = null,
+                    ParValue = 60
+                });
+                stocks.Add(new StockDetails
+                {
+                    Symbol = "GIN",
+                    Type = "Preferred",
+                    LastDividend = 8,
+                    FixedDividend = 2,
+                    ParValue = 100
+                });
+                stocks.Add(new StockDetails
+                {
+                    Symbol = "JOE",
+                    Type = "Common",
+                    LastDividend = 13,
+                    FixedDividend = null,
+                    ParValue = 250,
+                });
+            }
             return stocks;
         }
 
@@ -60,7 +63,7 @@ namespace SuperSimpleStockMarket
         {
             if (new string[] { "TEA" ,  "POP" , "GIN"}.Contains(stockSymbol))
             {
-                var trades = new List<Trades>();
+                trades = new List<Trades>();
                 trades.Add(new Trades
                 {
                     TradeTime = DateTime.Now,
@@ -109,7 +112,7 @@ namespace SuperSimpleStockMarket
             }
             if (new string[] { "JOE" }.Contains(stockSymbol))
             {
-                var trades = new List<Trades>();
+                trades = new List<Trades>();
                 trades.Add(new Trades
                 {
                     TradeTime = DateTime.Now,
@@ -152,13 +155,12 @@ namespace SuperSimpleStockMarket
                     Quantity = 7,
                     BuySellIndicator = "SELL"
                 });
-
                 stocks.Where(s => s.Symbol == stockSymbol).FirstOrDefault().TradeDetails = trades;
 
             }
             if (new string[] { "ALE" }.Contains(stockSymbol))
             {
-                var trades = new List<Trades>();
+                trades = new List<Trades>();
                 trades.Add(new Trades
                 {
                     TradeTime = DateTime.Now,
@@ -201,7 +203,7 @@ namespace SuperSimpleStockMarket
                     Quantity = 7,
                     BuySellIndicator = "SELL"
                 });
-
+                
                 stocks.Where(s => s.Symbol == stockSymbol).FirstOrDefault().TradeDetails = trades;
 
             }
